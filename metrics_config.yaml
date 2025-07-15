@@ -1,0 +1,206 @@
+# Metrics Configuration File (`metrics_config.yaml`)
+
+```yaml
+attention:
+  description: "% of solution clues discovered"
+  formula: "num_correct_clues / num_total_clues * 100"
+
+working_memory:
+  description: "% of distinct solution clues referenced across hypotheses"
+  formula: "distinct_clue_refs / num_total_clues * 100"
+
+deductive_reasoning:
+  description: "% of hypotheses linking two or more clues correctly"
+  formula: "num_hypotheses_with_valid_links / max_hypotheses * 100"
+
+inference:
+  description: "Average semantic similarity of player hypotheses to target hypotheses ×100"
+  formula: "avg_cosine_similarity(player_hypotheses, solution_hypotheses) * 100"
+
+problem_solving:
+  description: "Overall success combining attention and deductive reasoning"
+  formula: "(attention + deductive_reasoning) / 2"
+
+time_management:
+  description: "Efficiency of time use (faster completion yields higher score)"
+  formula: "(1 - (total_time_used / allowed_time)) * 100"
+
+hint_dependence:
+  description: "Inverse reliance on hints (fewer hints yields higher score)"
+  formula: "(1 - (num_hints_used / max_clues)) * 100"
+
+trap_awareness:
+  description: "% of traps avoided"
+  formula: "(1 - (num_trap_hits / trap_count_config)) * 100"
+
+# Cognitive & Analytical Skills
+attention_switching:
+  description: "Ability to manage shifting focus between elements"
+  formula: "optimal_switches / actual_switches * 100"
+
+pattern_recognition:
+  description: "Accuracy in identifying repeated elements or patterns"
+  formula: "num_correct_pattern_identifications / num_pattern_elements * 100"
+
+perception:
+  description: "Ability to notice key details in scene"
+  formula: "attention"
+
+spatial_reasoning:
+  description: "Effectiveness in interpreting spatial relationships"
+  formula: "avg_spatial_accuracy * 100"
+
+temporal_reasoning:
+  description: "Correct judgment of sequence or timing within scene"
+  formula: "num_correct_time_orderings / required_time_points * 100"
+
+working_memory_load:
+  description: "Capacity to maintain multiple pieces of information"
+  formula: "distinct_clue_refs / expected_clue_load * 100"
+
+long_term_memory:
+  description: "Recall of previous session rules or details"
+  formula: "num_recalled_prior_rules / total_prior_rules * 100"
+
+metacognition:
+  description: "Self-report alignment with actual performance"
+  formula: "(self_assessed_score - actual_score).abs_complement"
+
+decision_making:
+  description: "Quality of answers under time pressure"
+  formula: "average_confidence_weighted_accuracy * 100"
+
+critical_thinking:
+  description: "Ability to objectively evaluate clues and hypotheses"
+  formula: "deductive_reasoning"
+
+analytical_skills:
+  description: "Effectiveness of breaking down complex scenarios"
+  formula: "problem_solving"
+
+creative_thinking:
+  description: "Originality in hypothesis phrasing"
+  formula: "num_unique_hypothesis_structures / max_hypotheses * 100"
+
+lateral_thinking:
+  description: "Use of indirect or unconventional solutions"
+  formula: "num_non_obvious_hypotheses / max_hypotheses * 100"
+
+inference_accuracy:
+  description: "Precision of drawing conclusions from clues"
+  formula: "inference"
+
+judgment:
+  description: "Overall correctness of choices and hypotheses"
+  formula: "overall_score"
+
+heuristics_use:
+  description: "Appropriate application of mental shortcuts"
+  formula: "num_effective_heuristics / total_heuristic_opportunities * 100"
+
+cognitive_biases:
+  description: "Low occurrence of systematic bias patterns"
+  formula: "(1 - bias_incidence_rate) * 100"
+
+confirmation_bias:
+  description: "Tendency to seek confirming evidence"
+  formula: "(1 - conf_bias_rate) * 100"
+
+availability_heuristic:
+  description: "Reliance on easily recalled examples"
+  formula: "(1 - avail_heuristic_rate) * 100"
+
+framing_effects:
+  description: "Susceptibility to contextual influence"
+  formula: "(1 - framing_susceptibility_rate) * 100"
+
+cognitive_dissonance:
+  description: "Ability to resolve conflicting information"
+  formula: "resolved_conflicts / total_conflicts * 100"
+
+social_cognition:
+  description: "Interpretation of others' actions in scenario"
+  formula: "num_social_inferences_correct / total_social_cues * 100"
+
+behavioral_economics:
+  description: "Integration of economic reasoning under uncertainty"
+  formula: "economic_decision_accuracy * 100"
+
+risk_assessment:
+  description: "Accuracy in evaluating potential risks"
+  formula: "num_correct_risk_judgments / total_risk_points * 100"
+
+evaluation:
+  description: "Assessing the quality of information based on criteria"
+  formula: "analysis"
+
+synthesis:
+  description: "Combining clues into coherent theories"
+  formula: "creative_thinking"
+
+interpretation:
+  description: "Drawing meaning from observations"
+  formula: "inference"
+
+
+```
+
+---
+
+# Metrics Documentation
+
+This document explains each metric, the parameters used, and the rationale behind formula creation.
+
+## Parameters Definitions
+
+- **num\_correct\_clues**: Number of solution clues the player accurately identified.
+- **num\_total\_clues**: Total clues available (`max_clues`).
+- **distinct\_clue\_refs**: Count of unique clue indices referenced across all hypotheses.
+- **max\_hypotheses**: Maximum hypotheses allowed in the game.
+- **player\_hypotheses**: Array of user-submitted hypothesis strings.
+- **solution\_hypotheses**: Array of canonical hypotheses for semantic comparison.
+- **avg\_cosine\_similarity(...)**: Mean cosine similarity between hypothesis embeddings.
+- **total\_time\_used**: Time from session start to final submission.
+- **allowed\_time**: Time budget (`total_time_sec`).
+- **num\_hints\_used**: Number of hint clicks or auto-fill uses.
+- **trap\_count\_config**: Number of traps configured for the session.
+- **num\_trap\_hits**: How many times player selected a trap option.
+- **optimal\_switches**: Ideal number of focus shifts for scene complexity.
+- **actual\_switches**: Count of times player switched attention elements.
+- **num\_correct\_pattern\_identifications**: Patterns correctly spotted.
+- **num\_pattern\_elements**: Total repeatable elements in scene.
+- **avg\_spatial\_accuracy**: Percentage correct on spatial inference questions.
+- **required\_time\_points**: Number of events requiring temporal ordering.
+- **num\_correct\_time\_orderings**: Number of correctly ordered events.
+- **expected\_clue\_load**: Cognitive load estimate based on scene complexity.
+- **num\_recalled\_prior\_rules**: Rules from previous sessions recalled by player.
+- **total\_prior\_rules**: Total rules presented earlier.
+- **self\_assessed\_score**: Player's own rating of performance.
+- **actual\_score**: Computed overall score.
+- **average\_confidence\_weighted\_accuracy**: Weighted accuracy using self-reported confidence.
+- **num\_effective\_heuristics**: Heuristic cues applied correctly.
+- **total\_heuristic\_opportunities**: Number of moments heuristics could be used.
+- **bias\_incidence\_rate**: Rate at which biased decisions are made.
+- **conf\_bias\_rate**: Proportion of choices showing confirmation bias.
+- **avail\_heuristic\_rate**: Proportion of reliance on easily recalled data.
+- **framing\_susceptibility\_rate**: Likelihood of context influencing decisions.
+- **total\_conflicts**: Instances of conflicting clues.
+- **resolved\_conflicts**: Instances where conflict was logically addressed.
+- **total\_social\_cues**: Number of social interaction hints in scene.
+- **num\_social\_inferences\_correct**: Correct interpretations of others' actions.
+- **economic\_decision\_accuracy**: Correct economic choices under risk.
+- **total\_risk\_points**: Risk scenarios presented.
+- **num\_correct\_risk\_judgments**: Correct risk evaluations.
+
+## Formula Creation Rationale
+
+For each metric, formulas were designed to produce a 0–100 scale, ensuring comparability across metrics and sessions. Ratios (e.g., correct/total) capture accuracy, while complement formulas (e.g., 1 - error\_rate) invert measures where lower raw values indicate better performance.
+
+Metrics that mirror cognitive constructs (e.g., `working_memory`, `critical_thinking`) reuse simpler ratios from core event counts. Semantic measures (e.g., `inference`) leverage embedding similarity multiplied by 100.
+
+Complex constructs (e.g., `problem_solving`, `evaluation`) are computed as averages of related foundational metrics to reflect multi-faceted skills.
+
+Parameters were chosen based on available front-end event logs and measured behaviors. Additional parameters (e.g., `optimal_switches`) can be calibrated via user studies or playtest data.
+
+This combination of a structured config file and accompanying documentation ensures transparent, reproducible, and interpretable metric computation for your ODR game analytics pipeline.
+
